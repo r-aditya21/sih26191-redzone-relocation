@@ -1,0 +1,53 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H001",
+        "name": "Joshimath Ward 3",
+        "population": 1450
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.565, 30.555]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H002",
+        "name": "Chamoli Riverside Colony",
+        "population": 820
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.327, 30.402]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H003",
+        "name": "Reni Village",
+        "population": 510
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.587, 30.617]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H004",
+        "name": "Gopeshwar Outskirts",
+        "population": 2100
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.450, 30.470]
+      }
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z001",
+        "hazard_type": "landslide",
+        "risk_level": "high"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.560, 30.550],
+          [79.570, 30.550],
+          [79.570, 30.560],
+          [79.560, 30.560],
+          [79.560, 30.550]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z002",
+        "hazard_type": "flood",
+        "risk_level": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.320, 30.395],
+          [79.335, 30.395],
+          [79.335, 30.410],
+          [79.320, 30.410],
+          [79.320, 30.395]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z003",
+        "hazard_type": "glof",
+        "risk_level": "high"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.580, 30.610],
+          [79.595, 30.610],
+          [79.595, 30.625],
+          [79.580, 30.625],
+          [79.580, 30.610]
+        ]]
+      }
+    }
+  ]
+}

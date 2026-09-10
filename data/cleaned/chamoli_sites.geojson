@@ -1,0 +1,62 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "S001",
+        "capacity_score": 0.78,
+        "available_land": 12.5,
+        "infra_access": 0.65
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.470, 30.480],
+          [79.485, 30.480],
+          [79.485, 30.495],
+          [79.470, 30.495],
+          [79.470, 30.480]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "S002",
+        "capacity_score": 0.55,
+        "available_land": 6.2,
+        "infra_access": 0.40
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.340, 30.420],
+          [79.352, 30.420],
+          [79.352, 30.432],
+          [79.340, 30.432],
+          [79.340, 30.420]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "S003",
+        "capacity_score": 0.32,
+        "available_land": 3.1,
+        "infra_access": 0.25
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.600, 30.600],
+          [79.610, 30.600],
+          [79.610, 30.610],
+          [79.600, 30.610],
+          [79.600, 30.600]
+        ]]
+      }
+    }
+  ]
+}
