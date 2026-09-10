@@ -62,7 +62,7 @@ def main():
     )
 
     print("\n" + "=" * 60)
-    print("SAFE SHIFT — HABITATION RELOCATION PRIORITY")
+    print("RAKSHAGRID — HABITATION RELOCATION PRIORITY")
     print("=" * 60)
 
     for rank, result in enumerate(priority_results, start=1):
@@ -124,7 +124,7 @@ def main():
     site_results = calculate_site_suitability(sites)
 
     print("\n" + "=" * 60)
-    print("SAFE SHIFT — SAFE-SITE SUITABILITY")
+    print("RAKSHAGRID — SAFE-SITE SUITABILITY")
     print("=" * 60)
 
     for rank, result in enumerate(site_results, start=1):

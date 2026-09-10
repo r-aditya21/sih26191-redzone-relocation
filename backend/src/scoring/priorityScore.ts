@@ -40,6 +40,8 @@ const RISK_LEVEL_SCORE: Record<RiskLevel, number> = {
 
 function validateWeights(weights: PriorityWeights): void {
   if (
+    !Number.isFinite(weights.risk) ||
+    !Number.isFinite(weights.population) ||
     weights.risk < 0 ||
     weights.risk > 1 ||
     weights.population < 0 ||
@@ -71,14 +73,15 @@ function getUrgency(
   score: number,
 ): "immediate" | "short-term" | "medium-term" {
   /*
-   * Keep the existing backend urgency scale so that we do not
-   * unnecessarily break the current frontend/API contract.
+   * Thresholds follow the M4 priority classification:
+   * >= 0.67 HIGH/IMMEDIATE, >= 0.34 MEDIUM/SHORT-TERM, else LOW/MEDIUM-TERM.
+   * The existing `urgency` field is retained for API compatibility.
    */
-  if (score >= 0.75) {
+  if (score >= 0.67) {
     return "immediate";
   }
 
-  if (score >= 0.45) {
+  if (score >= 0.34) {
     return "short-term";
   }
 

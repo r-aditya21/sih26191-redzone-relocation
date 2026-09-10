@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "./db";
 import routes from "./routes/routes";
+import m4Routes from "./routes/m4";
 import authRoutes from "./routes/auth";
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/m4", m4Routes);
 app.use("/api", routes);
 
 connectDB().then(() => {

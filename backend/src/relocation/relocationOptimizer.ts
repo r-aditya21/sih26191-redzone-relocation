@@ -1,5 +1,5 @@
 /**
- * SafeShift M4 - Capacity-Aware Relocation Optimizer
+ * RakshaGrid M4 - Capacity-Aware Relocation Optimizer
  *
  * Allocates multiple habitations to relocation sites while
  * respecting site capacity.
@@ -212,11 +212,23 @@ export function optimizeRelocations(
    * Rank all possible assignments.
    */
   const rankedCandidates =
-    [...candidates].sort(
-      (a, b) =>
-        assignmentPriority(b) -
-        assignmentPriority(a)
-    );
+    [...candidates].sort((a, b) => {
+      const priorityDifference =
+        assignmentPriority(b) - assignmentPriority(a);
+
+      if (Math.abs(priorityDifference) > 1e-12) {
+        return priorityDifference;
+      }
+
+      const habitationDifference =
+        a.habitation_id.localeCompare(b.habitation_id);
+
+      if (habitationDifference !== 0) {
+        return habitationDifference;
+      }
+
+      return a.site_id.localeCompare(b.site_id);
+    });
 
   const assignedHabitations =
     new Set<string>();

@@ -1,5 +1,5 @@
 /**
- * SafeShift M4 - End-to-End Demonstration
+ * RakshaGrid M4 - End-to-End Demonstration
  *
  * Demonstrates the complete M4 decision-support pipeline:
  *
@@ -53,7 +53,7 @@ import {
 } from "./scoring/whatIfSimulation";
 
 console.log("==================================================");
-console.log("        SAFESHIFT — M4 END-TO-END DEMO");
+console.log("        RAKSHAGRID — M4 END-TO-END DEMO");
 console.log("==================================================");
 console.log("Synthetic demonstration data only.");
 console.log("Prototype planning assumptions are not");
@@ -171,15 +171,7 @@ const suitabilityInputs: SiteSuitabilityInput[] = [
   },
 ];
 
-const suitabilityResults = suitabilityInputs.flatMap((site) =>
-  calculateSiteSuitability([site], [
-    site.site_id === "S1"
-      ? 2
-      : site.site_id === "S2"
-        ? 4
-        : 6,
-  ])
-);
+const suitabilityResults = calculateSiteSuitability(suitabilityInputs);
 
 const rankedSuitability = [...suitabilityResults].sort(
   (a, b) => b.suitability_score - a.suitability_score
