@@ -9,8 +9,12 @@ import {
   calculatePriorityScore,
   RiskLevel,
 } from "../scoring/priorityScore";
+import { authenticate } from "../middleware/auth";
 
 const router = Router();
+
+// Every route below requires a valid Bearer token.
+router.use(authenticate);
 
 // ---- GET /zones ----
 router.get(

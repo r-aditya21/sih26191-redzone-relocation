@@ -11,6 +11,7 @@ import SystemSettings from "./System";
 import {AlertTriangle,BarChart3,Bell,ChevronDown,CircleHelp,Download,FileText,Home,Layers3,LogOut,MapPinned,Menu,Search,Shield,SlidersHorizontal,Users,X} from "lucide-react";
 import { useApi } from "../../lib/useApi";
 import { fetchPriorities } from "../../lib/api";
+import { useAuth } from "../../lib/AuthContext";
 const RiskMap=dynamic(()=>import("./RiskMap"),{ssr:false});
 
 type Zone={id:string;name:string;district:string;risk:"Critical"|"High"|"Moderate";population:number;households:number;progress:number};
@@ -22,6 +23,7 @@ const zones:Zone[]=[
 const staticPriorities=[["Z-014","Bhagirathi Valley","Critical",4821,"Immediate"],["Z-022","Mandakini Belt","High",3290,"Short-term"],["Z-031","Alaknanda Slope","High",2745,"Short-term"],["Z-009","Tehri Ridge","Moderate",1930,"Medium-term"]];
 
 export default function Dashboard(){
+const { user, logout } = useAuth();
 const { data: apiPriorities } = useApi(fetchPriorities);
 const priorities = useMemo(() => {
   if (!apiPriorities || apiPriorities.length === 0) return staticPriorities;
@@ -44,7 +46,7 @@ return <div className="min-h-screen bg-surface">
 <button className="md:hidden mr-3" onClick={()=>setMobileOpen(true)}><Menu size={22}/></button>
 <div className="flex items-center gap-3 min-w-[245px]"><div className="w-10 h-10 rounded-xl bg-forest text-white grid place-items-center"><Shield size={21}/></div><div><b>RakshaGrid</b><div className="text-[10px] uppercase tracking-[.16em] text-muted">Proactive relocation command</div></div></div>
 <div className="hidden lg:flex flex-1 justify-center"><div className="text-xs text-muted px-4 py-2 rounded-full bg-surface border border-line"><span className="inline-block w-2 h-2 rounded-full bg-safe mr-2"/>Case study: Uttarakhand • Demo dataset</div></div>
-<div className="ml-auto flex items-center gap-3"><Bell size={19}/><div className="hidden sm:flex items-center gap-3 border-l border-line pl-4"><div className="w-9 h-9 rounded-full bg-forest/10 text-forest grid place-items-center text-sm font-bold">DM</div><div className="text-xs"><b>District Officer</b><div className="text-muted">SDMA Control Room</div></div><ChevronDown size={15}/></div></div>
+<div className="ml-auto flex items-center gap-3"><Bell size={19}/><div className="hidden sm:flex items-center gap-3 border-l border-line pl-4"><div className="w-9 h-9 rounded-full bg-forest/10 text-forest grid place-items-center text-sm font-bold">{(user?.name||"?").slice(0,2).toUpperCase()}</div><div className="text-xs"><b>{user?.name||"..."}</b><div className="text-muted capitalize">{user?.role||""}</div></div><button onClick={logout} className="text-xs text-muted hover:text-danger ml-2">Sign out</button></div></div>
 </header>
 <div className="flex">
 <aside className={`${mobileOpen?"fixed inset-0 z-50 bg-white w-[280px]":"hidden"} md:block md:sticky md:top-[68px] md:h-[calc(100vh-68px)] w-[245px] shrink-0 bg-white border-r border-line p-4`}>

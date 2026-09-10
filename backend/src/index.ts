@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "./db";
 import routes from "./routes/routes";
+import authRoutes from "./routes/auth";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.get("/", (_req, res) => {
   res.json({ status: "ok", message: "SIH 26191 backend running" });
 });
 
+app.use("/api/auth", authRoutes);
 app.use("/api", routes);
 
 connectDB().then(() => {

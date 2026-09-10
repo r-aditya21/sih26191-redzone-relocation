@@ -1,9 +1,25 @@
-﻿const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+﻿import { getToken, clearToken } from "./auth";
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 async function apiFetch<T>(path: string): Promise<T> {
+  const token = getToken();
+
   const res = await fetch(`${BASE_URL}${path}`, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
   });
+
+  if (res.status === 401) {
+    clearToken();
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+    throw new Error("Session expired, please log in again");
+  }
+
   if (!res.ok) {
     throw new Error(`API error ${res.status} on ${path}`);
   }
