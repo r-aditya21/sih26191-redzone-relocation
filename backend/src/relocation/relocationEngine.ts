@@ -1,5 +1,5 @@
 /**
- * SafeShift M4 - Relocation Recommendation Engine
+ * RakshaGrid M4 - Relocation Recommendation Engine
  *
  * Combines:
  *
@@ -305,16 +305,8 @@ export function recommendRelocationSites(
       })
     );
 
-  const distances =
-    capacityEligibleSites.map(
-      (site) => site.distance_km
-    );
-
   const suitabilityResults =
-    calculateSiteSuitability(
-      suitabilityInputs,
-      distances
-    );
+    calculateSiteSuitability(suitabilityInputs);
 
   /*
    * --------------------------------------------------

@@ -1,5 +1,5 @@
 /**
- * SafeShift M4 - What-If Scenario Simulation
+ * RakshaGrid M4 - What-If Scenario Simulation
  *
  * Simulates how a change in rainfall stress can affect
  * normalized hazard/risk scores and habitation priorities.

@@ -1,16 +1,15 @@
 /**
- * SafeShift M4 - Safe Site Suitability Engine
+ * RakshaGrid M4 - Safe Site Suitability Engine
  *
- * Ranks relocation sites using:
+ * Core suitability uses only:
+ *   Capacity + Available Land + Infrastructure
  *
- *   Capacity
- *   Infrastructure
- *   Available Land
- *   Distance
+ * Distance is intentionally excluded from the core suitability score.
+ * It remains available to relocation recommendation/optimization logic.
  *
  * IMPORTANT:
- * These are prototype MCDA weights and are configurable.
- * They are not official government standards.
+ * These are prototype MCDA weights. They are not official government
+ * standards and should be calibrated with domain experts for production.
  */
 
 export interface SiteSuitabilityInput {
@@ -24,7 +23,6 @@ export interface SiteSuitabilityWeights {
   capacity: number;
   infrastructure: number;
   land: number;
-  distance: number;
 }
 
 export interface SiteSuitabilityResult {
@@ -33,7 +31,6 @@ export interface SiteSuitabilityResult {
   capacity_score: number;
   normalized_land: number;
   infrastructure_score: number;
-  distance_score: number;
 
   suitability_score: number;
 
@@ -41,25 +38,20 @@ export interface SiteSuitabilityResult {
     capacity_contribution: number;
     infrastructure_contribution: number;
     land_contribution: number;
-    distance_contribution: number;
   };
 }
 
 export const DEFAULT_SITE_SUITABILITY_WEIGHTS: SiteSuitabilityWeights = {
-  capacity: 0.45,
+  capacity: 0.50,
+  land: 0.25,
   infrastructure: 0.25,
-  land: 0.20,
-  distance: 0.10,
 };
 
-function validateWeights(
-  weights: SiteSuitabilityWeights
-): void {
+function validateWeights(weights: SiteSuitabilityWeights): void {
   const values = [
     weights.capacity,
-    weights.infrastructure,
     weights.land,
-    weights.distance,
+    weights.infrastructure,
   ];
 
   if (
@@ -67,29 +59,27 @@ function validateWeights(
       (value) =>
         !Number.isFinite(value) ||
         value < 0 ||
-        value > 1
+        value > 1,
     )
   ) {
     throw new Error(
-      "Site suitability weights must be between 0 and 1."
+      "Site suitability weights must be between 0 and 1.",
     );
   }
 
   const sum = values.reduce(
     (total, value) => total + value,
-    0
+    0,
   );
 
   if (Math.abs(sum - 1) > 1e-9) {
     throw new Error(
-      "Site suitability weights must sum to 1."
+      "Site suitability weights must sum to 1.",
     );
   }
 }
 
-function validateSite(
-  site: SiteSuitabilityInput
-): void {
+function validateSite(site: SiteSuitabilityInput): void {
   if (!site.site_id) {
     throw new Error("site_id is required.");
   }
@@ -99,9 +89,7 @@ function validateSite(
     site.capacity_score < 0 ||
     site.capacity_score > 1
   ) {
-    throw new Error(
-      "capacity_score must be between 0 and 1."
-    );
+    throw new Error("capacity_score must be between 0 and 1.");
   }
 
   if (
@@ -109,7 +97,7 @@ function validateSite(
     site.available_land < 0
   ) {
     throw new Error(
-      "available_land must be a non-negative number."
+      "available_land must be a non-negative number.",
     );
   }
 
@@ -118,16 +106,14 @@ function validateSite(
     site.infra_access < 0 ||
     site.infra_access > 1
   ) {
-    throw new Error(
-      "infra_access must be between 0 and 1."
-    );
+    throw new Error("infra_access must be between 0 and 1.");
   }
 }
 
 function normalize(
   value: number,
   minimum: number,
-  maximum: number
+  maximum: number,
 ): number {
   if (maximum === minimum) {
     return 0.5;
@@ -137,44 +123,21 @@ function normalize(
 }
 
 /**
- * Distance score.
+ * Calculate core suitability for all sites.
  *
- * 0 km gives a score close to 1.
- * Increasing distance decreases the score.
- */
-function calculateDistanceScore(
-  distanceKm: number
-): number {
-  if (
-    !Number.isFinite(distanceKm) ||
-    distanceKm < 0
-  ) {
-    throw new Error(
-      "distanceKm must be a non-negative number."
-    );
-  }
-
-  return 1 / (1 + distanceKm);
-}
-
-/**
- * Calculate suitability for all sites.
+ * Formula:
+ *   0.50 × capacity_score
+ * + 0.25 × normalized_land
+ * + 0.25 × infra_access
  *
- * `distanceKm` must correspond to the same order as `sites`.
+ * `capacity_score` and `infra_access` are already normalized to 0–1.
+ * Available land is min-max normalized across the supplied sites.
  */
 export function calculateSiteSuitability(
   sites: SiteSuitabilityInput[],
-  distanceKm: number[],
-  weights: SiteSuitabilityWeights =
-    DEFAULT_SITE_SUITABILITY_WEIGHTS
+  weights: SiteSuitabilityWeights = DEFAULT_SITE_SUITABILITY_WEIGHTS,
 ): SiteSuitabilityResult[] {
   validateWeights(weights);
-
-  if (sites.length !== distanceKm.length) {
-    throw new Error(
-      "sites and distanceKm must have the same length."
-    );
-  }
 
   if (sites.length === 0) {
     return [];
@@ -182,95 +145,53 @@ export function calculateSiteSuitability(
 
   sites.forEach(validateSite);
 
-  const landValues = sites.map(
-    (site) => site.available_land
-  );
-
+  const landValues = sites.map((site) => site.available_land);
   const minimumLand = Math.min(...landValues);
   const maximumLand = Math.max(...landValues);
 
-  return sites.map((site, index) => {
+  return sites.map((site) => {
     const normalizedLand = normalize(
       site.available_land,
       minimumLand,
-      maximumLand
+      maximumLand,
     );
-
-    const distanceScore =
-      calculateDistanceScore(distanceKm[index]);
 
     const capacityContribution =
       weights.capacity * site.capacity_score;
-
     const infrastructureContribution =
-      weights.infrastructure *
-      site.infra_access;
-
+      weights.infrastructure * site.infra_access;
     const landContribution =
       weights.land * normalizedLand;
-
-    const distanceContribution =
-      weights.distance * distanceScore;
 
     const suitabilityScore =
       capacityContribution +
       infrastructureContribution +
-      landContribution +
-      distanceContribution;
+      landContribution;
 
     return {
       site_id: site.site_id,
-
-      capacity_score: Number(
-        site.capacity_score.toFixed(6)
-      ),
-
-      normalized_land: Number(
-        normalizedLand.toFixed(6)
-      ),
-
-      infrastructure_score: Number(
-        site.infra_access.toFixed(6)
-      ),
-
-      distance_score: Number(
-        distanceScore.toFixed(6)
-      ),
-
-      suitability_score: Number(
-        suitabilityScore.toFixed(6)
-      ),
-
+      capacity_score: Number(site.capacity_score.toFixed(6)),
+      normalized_land: Number(normalizedLand.toFixed(6)),
+      infrastructure_score: Number(site.infra_access.toFixed(6)),
+      suitability_score: Number(suitabilityScore.toFixed(6)),
       explanation: {
         capacity_contribution: Number(
-          capacityContribution.toFixed(6)
+          capacityContribution.toFixed(6),
         ),
-
         infrastructure_contribution: Number(
-          infrastructureContribution.toFixed(6)
+          infrastructureContribution.toFixed(6),
         ),
-
-        land_contribution: Number(
-          landContribution.toFixed(6)
-        ),
-
-        distance_contribution: Number(
-          distanceContribution.toFixed(6)
-        ),
+        land_contribution: Number(landContribution.toFixed(6)),
       },
     };
   });
 }
 
-/**
- * Rank sites from best to worst.
- */
+/** Rank sites from best to worst. */
 export function rankSitesBySuitability(
-  results: SiteSuitabilityResult[]
+  results: SiteSuitabilityResult[],
 ): SiteSuitabilityResult[] {
   return [...results].sort(
-    (a, b) =>
-      b.suitability_score -
-      a.suitability_score
+    (a, b) => b.suitability_score - a.suitability_score,
   );
 }
