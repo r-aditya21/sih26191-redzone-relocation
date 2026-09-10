@@ -1,16 +1,30 @@
-import {NextRequest, NextResponse} from "next/server";
-import {connectDB} from "@/lib/mongodb";
-import Zone from "@/models/Zone";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
-  await connectDB();
-  const zones = await Zone.find().sort({risk: 1}).lean();
-  return NextResponse.json(zones);
-}
+const BACKEND_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
-export async function POST(req: NextRequest) {
-  await connectDB();
-  const body = await req.json();
-  const zone = await Zone.create(body);
-  return NextResponse.json(zone, {status: 201});
+export async function GET() {
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/zones`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: "Failed to fetch zones from backend" },
+        { status: response.status }
+      );
+    }
+
+    const data = await response.json();
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Zones API error:", error);
+
+    return NextResponse.json(
+      { error: "Backend server is unavailable" },
+      { status: 500 }
+    );
+  }
 }
