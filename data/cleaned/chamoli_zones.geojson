@@ -1,21 +1,24 @@
 {
   "type": "FeatureCollection",
+  "name": "chamoli_hazard_zones",
   "features": [
     {
       "type": "Feature",
       "properties": {
         "zone_id": "Z001",
+        "name": "Joshimath Subsidence Zone",
         "hazard_type": "landslide",
-        "risk_level": "high"
+        "risk_level": "high",
+        "description": "Active land subsidence zone, cracks observed in over 700 structures in 2023"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [79.560, 30.550],
-          [79.570, 30.550],
-          [79.570, 30.560],
-          [79.560, 30.560],
-          [79.560, 30.550]
+          [79.5620, 30.5560],
+          [79.5750, 30.5560],
+          [79.5750, 30.5660],
+          [79.5620, 30.5660],
+          [79.5620, 30.5560]
         ]]
       }
     },
@@ -23,17 +26,19 @@
       "type": "Feature",
       "properties": {
         "zone_id": "Z002",
-        "hazard_type": "flood",
-        "risk_level": "medium"
+        "name": "Reni Village GLOF Zone",
+        "hazard_type": "glof",
+        "risk_level": "high",
+        "description": "Downstream impact zone of 2021 Rishiganga glacial lake outburst flood"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [79.320, 30.395],
-          [79.335, 30.395],
-          [79.335, 30.410],
-          [79.320, 30.410],
-          [79.320, 30.395]
+          [79.5850, 30.4800],
+          [79.6050, 30.4800],
+          [79.6050, 30.5000],
+          [79.5850, 30.5000],
+          [79.5850, 30.4800]
         ]]
       }
     },
@@ -41,17 +46,159 @@
       "type": "Feature",
       "properties": {
         "zone_id": "Z003",
-        "hazard_type": "glof",
-        "risk_level": "high"
+        "name": "Alaknanda Flood Plain — Chamoli Town",
+        "hazard_type": "flood",
+        "risk_level": "high",
+        "description": "Seasonal flood inundation zone along Alaknanda river near Chamoli town"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [79.580, 30.610],
-          [79.595, 30.610],
-          [79.595, 30.625],
-          [79.580, 30.625],
-          [79.580, 30.610]
+          [79.3150, 30.3900],
+          [79.3450, 30.3900],
+          [79.3450, 30.4150],
+          [79.3150, 30.4150],
+          [79.3150, 30.3900]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z004",
+        "name": "Helang–Marwari Landslide Corridor",
+        "hazard_type": "landslide",
+        "risk_level": "high",
+        "description": "High landslide susceptibility along NH-58 corridor between Helang and Marwari"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.4900, 30.5100],
+          [79.5200, 30.5100],
+          [79.5200, 30.5350],
+          [79.4900, 30.5350],
+          [79.4900, 30.5100]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z005",
+        "name": "Birahi Cloudburst Zone",
+        "hazard_type": "cloudburst",
+        "risk_level": "medium",
+        "description": "Recurring cloudburst events causing flash floods in Birahi valley"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.4000, 30.4400],
+          [79.4250, 30.4400],
+          [79.4250, 30.4650],
+          [79.4000, 30.4650],
+          [79.4000, 30.4400]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z006",
+        "name": "Nandprayag Confluence Flood Zone",
+        "hazard_type": "flood",
+        "risk_level": "medium",
+        "description": "Medium flood risk at Alaknanda–Nandakini confluence at Nandprayag"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.1700, 30.3400],
+          [79.2000, 30.3400],
+          [79.2000, 30.3650],
+          [79.1700, 30.3650],
+          [79.1700, 30.3400]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z007",
+        "name": "Gauchar Alluvial Flood Plain",
+        "hazard_type": "flood",
+        "risk_level": "medium",
+        "description": "Low-lying alluvial plain near Gauchar susceptible to seasonal flooding"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.2200, 30.3750],
+          [79.2550, 30.3750],
+          [79.2550, 30.4050],
+          [79.2200, 30.4050],
+          [79.2200, 30.3750]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z008",
+        "name": "Tapovan Landslide Zone",
+        "hazard_type": "landslide",
+        "risk_level": "high",
+        "description": "Steep slope landslide zone near Tapovan, debris from 2021 GLOF event"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.6150, 30.4900],
+          [79.6350, 30.4900],
+          [79.6350, 30.5100],
+          [79.6150, 30.5100],
+          [79.6150, 30.4900]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z009",
+        "name": "Karnaprayag Erosion Zone",
+        "hazard_type": "erosion",
+        "risk_level": "medium",
+        "description": "River bank erosion along Alaknanda near Karnaprayag affecting riverside settlements"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.2500, 30.2600],
+          [79.2800, 30.2600],
+          [79.2800, 30.2900],
+          [79.2500, 30.2900],
+          [79.2500, 30.2600]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "Z010",
+        "name": "Urgam Valley Landslide Zone",
+        "hazard_type": "landslide",
+        "risk_level": "low",
+        "description": "Moderate slope instability in upper Urgam valley, low current hazard"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.4300, 30.5500],
+          [79.4600, 30.5500],
+          [79.4600, 30.5750],
+          [79.4300, 30.5750],
+          [79.4300, 30.5500]
         ]]
       }
     }

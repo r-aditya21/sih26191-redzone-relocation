@@ -1,6 +1,8 @@
 "use client";
 import {useMemo,useState} from "react";
-import {Accessibility,BarChart3,Baby,Bell,ChevronDown,CircleHelp,Download,FileText,Home,Layers3,LogOut,MapPinned,Menu,Plus,Search,Shield,SlidersHorizontal,Users,UserRound,X} from "lucide-react";
+import {Accessibility,Baby,Download,Plus,Search,SlidersHorizontal,Users,UserRound} from "lucide-react";
+import AppHeader from "./AppHeader";
+import AppSidebar from "./AppSidebar";
 
 type Group={id:string;district:string;zoneId:string;zoneName:string;total:number;children:number;elderly:number;disabled:number;pregnant:number;risk:"Critical"|"High"|"Moderate"};
 
@@ -19,32 +21,21 @@ const riskStyle={Critical:"bg-danger/10 text-danger",High:"bg-orange-500/10 text
 
 export default function Population({onNavigate}:{onNavigate?:(view:string)=>void}){
 const[mobileOpen,setMobileOpen]=useState(false),[selected,setSelected]=useState<Group>(groups[0]),[risk,setRisk]=useState("All"),[search,setSearch]=useState("");
-const nav=[["Dashboard",Home],["Risk Zones",MapPinned],["Relocation",Layers3],["Resources",Shield],["Population",Users],["Analytics",BarChart3],["Reports",FileText]];
 const filtered=useMemo(()=>groups.filter(g=>(risk==="All"||g.risk===risk)&&`${g.zoneName} ${g.district}`.toLowerCase().includes(search.toLowerCase())),[risk,search]);
 const totals=groups.reduce((a,g)=>({total:a.total+g.total,children:a.children+g.children,elderly:a.elderly+g.elderly,disabled:a.disabled+g.disabled,pregnant:a.pregnant+g.pregnant}),{total:0,children:0,elderly:0,disabled:0,pregnant:0});
-const vulnPct=Math.round(((totals.children+totals.elderly+totals.disabled+totals.pregnant)/totals.total)*100);
+// FIX: guard against a divide-by-zero (NaN%) if groups/totals were ever empty
+const vulnPct=totals.total>0?Math.round(((totals.children+totals.elderly+totals.disabled+totals.pregnant)/totals.total)*100):0;
 
 return <div className="min-h-screen bg-surface">
-<header className="h-[68px] bg-white border-b border-line flex items-center px-4 md:px-7 sticky top-0 z-30">
-<button className="md:hidden mr-3" onClick={()=>setMobileOpen(true)}><Menu size={22}/></button>
-<div className="flex items-center gap-3 min-w-[245px]"><div className="w-10 h-10 rounded-xl bg-forest text-white grid place-items-center"><Shield size={21}/></div><div><b>RakshaGrid</b><div className="text-[10px] uppercase tracking-[.16em] text-muted">Proactive relocation command</div></div></div>
-<div className="hidden lg:flex flex-1 justify-center"><div className="text-xs text-muted px-4 py-2 rounded-full bg-surface border border-line"><span className="inline-block w-2 h-2 rounded-full bg-safe mr-2"/>Case study: Uttarakhand • Demo dataset</div></div>
-<div className="ml-auto flex items-center gap-3"><Bell size={19}/><div className="hidden sm:flex items-center gap-3 border-l border-line pl-4"><div className="w-9 h-9 rounded-full bg-forest/10 text-forest grid place-items-center text-sm font-bold">DM</div><div className="text-xs"><b>District Officer</b><div className="text-muted">SDMA Control Room</div></div><ChevronDown size={15}/></div></div>
-</header>
+<AppHeader onOpenMobileNav={()=>setMobileOpen(true)}/>
 <div className="flex">
-<aside className={`${mobileOpen?"fixed inset-0 z-50 bg-white w-[280px]":"hidden"} md:block md:sticky md:top-[68px] md:h-[calc(100vh-68px)] w-[245px] shrink-0 bg-white border-r border-line p-4`}>
-<div className="flex justify-between md:hidden mb-6"><b>Navigation</b><button onClick={()=>setMobileOpen(false)}><X/></button></div>
-<div className="text-[10px] uppercase tracking-[.18em] text-muted px-3 mb-2">Workspace</div>
-<nav className="space-y-1">{nav.map(([label,Icon]:any)=><button key={label} onClick={()=>{setMobileOpen(false);onNavigate?.(label)}} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-left ${label==="Population"?"bg-forest text-white":"hover:bg-surface"}`}><Icon size={17}/>{label}{label==="Population"&&<span className="ml-auto text-[10px] px-1.5 rounded bg-white/20">{groups.length}</span>}</button>)}</nav>
-<div className="mt-8 border-t border-line pt-5"><div className="text-[10px] uppercase tracking-[.18em] text-muted px-3 mb-2">System</div><button className="w-full flex gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-surface"><CircleHelp size={17}/>Help & methodology</button><button className="w-full flex gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-surface"><LogOut size={17}/>Sign out</button></div>
-<div className="mt-8 p-3 rounded-2xl bg-forest/5 border border-forest/10"><div className="text-xs font-semibold">Scoring model v1.0</div><div className="text-[11px] text-muted mt-1 leading-4">Hazard 45% • exposure 30% • urgency 25%</div></div>
-</aside>
+<AppSidebar active="Population" onNavigate={(v)=>onNavigate?.(v)} mobileOpen={mobileOpen} onCloseMobileNav={()=>setMobileOpen(false)} badges={{Population:groups.length}}/>
 <main className="flex-1 min-w-0 p-4 md:p-7"><div className="max-w-[1500px] mx-auto">
 
 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6"><div><div className="text-xs text-muted mb-2">State Disaster Management Authority / Population</div><h1 className="text-2xl md:text-3xl font-bold">Population & Vulnerability</h1><p className="text-sm text-muted mt-1">Demographic breakdown by zone, with vulnerable-group counts for relocation priority.</p></div><div className="flex gap-2"><button className="px-4 py-2.5 bg-white border border-line rounded-xl text-sm flex gap-2 items-center"><Download size={16}/>Export</button><button className="px-4 py-2.5 bg-forest text-white rounded-xl text-sm flex gap-2 items-center"><Plus size={16}/>Update census</button></div></div>
 
 <section className="grid grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-5">
-{[["Total population",totals.total.toLocaleString(),"Across 8 zones",Users],["Children (0–14)",totals.children.toLocaleString(),`${Math.round(totals.children/totals.total*100)}% of total`,Baby],["Elderly (65+)",totals.elderly.toLocaleString(),`${Math.round(totals.elderly/totals.total*100)}% of total`,UserRound],["Vulnerable share",vulnPct+"%","Children, elderly, disabled, pregnant",Accessibility]].map(([t,v,s,I]:any)=><div key={t} className="bg-white border border-line rounded-2xl p-4 md:p-5 shadow-soft"><div className="flex justify-between"><span className="text-xs text-muted">{t}</span><div className="p-2 rounded-lg bg-forest/10 text-forest"><I size={17}/></div></div><div className="text-2xl font-bold mt-4">{v}</div><div className="text-[11px] text-muted mt-1">{s}</div></div>)}
+{[["Total population",totals.total.toLocaleString(),`Across ${groups.length} zones`,Users],["Children (0–14)",totals.children.toLocaleString(),`${totals.total>0?Math.round(totals.children/totals.total*100):0}% of total`,Baby],["Elderly (65+)",totals.elderly.toLocaleString(),`${totals.total>0?Math.round(totals.elderly/totals.total*100):0}% of total`,UserRound],["Vulnerable share",vulnPct+"%","Children, elderly, disabled, pregnant",Accessibility]].map(([t,v,s,I]:any)=><div key={t} className="bg-white border border-line rounded-2xl p-4 md:p-5 shadow-soft"><div className="flex justify-between"><span className="text-xs text-muted">{t}</span><div className="p-2 rounded-lg bg-forest/10 text-forest"><I size={17}/></div></div><div className="text-2xl font-bold mt-4">{v}</div><div className="text-[11px] text-muted mt-1">{s}</div></div>)}
 </section>
 
 <section className="grid xl:grid-cols-[1.55fr_.8fr] gap-5">

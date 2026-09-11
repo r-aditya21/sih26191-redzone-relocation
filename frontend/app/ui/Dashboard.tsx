@@ -8,10 +8,11 @@ import Population from "./Population";
 import Analytics from "./Analytic";
 import Reports from "./Reports";
 import SystemSettings from "./System";
-import {AlertTriangle,BarChart3,Bell,ChevronDown,CircleHelp,Download,FileText,Home,Layers3,LogOut,MapPinned,Menu,Search,Shield,SlidersHorizontal,Users,X} from "lucide-react";
+import AppHeader from "./AppHeader";
+import AppSidebar from "./AppSidebar";
+import {AlertTriangle,Download,MapPinned,Search,Shield,SlidersHorizontal,Users} from "lucide-react";
 import { useApi } from "../../lib/useApi";
 import { fetchPriorities } from "../../lib/api";
-import { useAuth } from "../../lib/AuthContext";
 const RiskMap=dynamic(()=>import("./RiskMap"),{ssr:false});
 
 type Zone={id:string;name:string;district:string;risk:"Critical"|"High"|"Moderate";population:number;households:number;progress:number};
@@ -23,7 +24,6 @@ const zones:Zone[]=[
 const staticPriorities=[["Z-014","Bhagirathi Valley","Critical",4821,"Immediate"],["Z-022","Mandakini Belt","High",3290,"Short-term"],["Z-031","Alaknanda Slope","High",2745,"Short-term"],["Z-009","Tehri Ridge","Moderate",1930,"Medium-term"]];
 
 export default function Dashboard(){
-const { user, logout } = useAuth();
 const { data: apiPriorities } = useApi(fetchPriorities);
 const priorities = useMemo(() => {
   if (!apiPriorities || apiPriorities.length === 0) return staticPriorities;
@@ -32,7 +32,6 @@ const priorities = useMemo(() => {
   ]);
 }, [apiPriorities]);
 const[active,setActive]=useState("Dashboard"),[mobileOpen,setMobileOpen]=useState(false),[selected,setSelected]=useState<Zone>(zones[0]),[filter,setFilter]=useState("All"),[search,setSearch]=useState("");
-const nav=[["Dashboard",Home],["Risk Zones",MapPinned],["Relocation",Layers3],["Resources",Shield],["Population",Users],["Analytics",BarChart3],["Reports",FileText]];
 const filtered=useMemo(()=>zones.filter(z=>(filter==="All"||z.risk===filter)&&`${z.name} ${z.district}`.toLowerCase().includes(search.toLowerCase())),[filter,search]);
 if(active==="Risk Zones") return <RiskZones onNavigate={setActive}/>;
 if(active==="Relocation") return <Relocation onNavigate={setActive}/>;
@@ -42,20 +41,9 @@ if(active==="Analytics") return <Analytics onNavigate={setActive}/>;
 if(active==="Reports") return <Reports onNavigate={setActive}/>;
 if(active==="System") return <SystemSettings onNavigate={setActive}/>;
 return <div className="min-h-screen bg-surface">
-<header className="h-[68px] bg-white border-b border-line flex items-center px-4 md:px-7 sticky top-0 z-30">
-<button className="md:hidden mr-3" onClick={()=>setMobileOpen(true)}><Menu size={22}/></button>
-<div className="flex items-center gap-3 min-w-[245px]"><div className="w-10 h-10 rounded-xl bg-forest text-white grid place-items-center"><Shield size={21}/></div><div><b>RakshaGrid</b><div className="text-[10px] uppercase tracking-[.16em] text-muted">Proactive relocation command</div></div></div>
-<div className="hidden lg:flex flex-1 justify-center"><div className="text-xs text-muted px-4 py-2 rounded-full bg-surface border border-line"><span className="inline-block w-2 h-2 rounded-full bg-safe mr-2"/>Case study: Uttarakhand • Demo dataset</div></div>
-<div className="ml-auto flex items-center gap-3"><Bell size={19}/><div className="hidden sm:flex items-center gap-3 border-l border-line pl-4"><div className="w-9 h-9 rounded-full bg-forest/10 text-forest grid place-items-center text-sm font-bold">{(user?.name||"?").slice(0,2).toUpperCase()}</div><div className="text-xs"><b>{user?.name||"..."}</b><div className="text-muted capitalize">{user?.role||""}</div></div><button onClick={logout} className="text-xs text-muted hover:text-danger ml-2">Sign out</button></div></div>
-</header>
+<AppHeader onOpenMobileNav={()=>setMobileOpen(true)}/>
 <div className="flex">
-<aside className={`${mobileOpen?"fixed inset-0 z-50 bg-white w-[280px]":"hidden"} md:block md:sticky md:top-[68px] md:h-[calc(100vh-68px)] w-[245px] shrink-0 bg-white border-r border-line p-4`}>
-<div className="flex justify-between md:hidden mb-6"><b>Navigation</b><button onClick={()=>setMobileOpen(false)}><X/></button></div>
-<div className="text-[10px] uppercase tracking-[.18em] text-muted px-3 mb-2">Workspace</div>
-<nav className="space-y-1">{nav.map(([label,Icon]:any)=><button key={label} onClick={()=>{setActive(label);setMobileOpen(false)}} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-left ${active===label?"bg-forest text-white":"hover:bg-surface"}`}><Icon size={17}/>{label}{label==="Risk Zones"&&<span className="ml-auto text-[10px] px-1.5 rounded bg-danger/10 text-danger">17</span>}</button>)}</nav>
-<div className="mt-8 border-t border-line pt-5"><div className="text-[10px] uppercase tracking-[.18em] text-muted px-3 mb-2">System</div><button onClick={()=>setActive("System")} className="w-full flex gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-surface"><Shield size={17}/>System settings</button><button className="w-full flex gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-surface"><CircleHelp size={17}/>Help & methodology</button><button className="w-full flex gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-surface"><LogOut size={17}/>Sign out</button></div>
-<div className="mt-8 p-3 rounded-2xl bg-forest/5 border border-forest/10"><div className="text-xs font-semibold">Scoring model v1.0</div><div className="text-[11px] text-muted mt-1 leading-4">Hazard 45% • exposure 30% • urgency 25%</div></div>
-</aside>
+<AppSidebar active="Dashboard" onNavigate={setActive} mobileOpen={mobileOpen} onCloseMobileNav={()=>setMobileOpen(false)} badges={{"Risk Zones":17}}/>
 <main className="flex-1 min-w-0 p-4 md:p-7"><div className="max-w-[1500px] mx-auto">
 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6"><div><div className="text-xs text-muted mb-2">State Disaster Management Authority / Overview</div><h1 className="text-2xl md:text-3xl font-bold">Relocation Command Center</h1><p className="text-sm text-muted mt-1">Proactive identification of hazardous habitations and safer relocation capacity.</p></div><div className="flex gap-2"><button className="px-4 py-2.5 bg-white border border-line rounded-xl text-sm flex gap-2 items-center"><Download size={16}/>Export report</button><button className="px-4 py-2.5 bg-forest text-white rounded-xl text-sm">Plan relocation</button></div></div>
 <section className="grid grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-5">{[["Affected population","24,821","Across 17 classified zones",AlertTriangle],["Active red zones","17","4 require immediate action",MapPinned],["Relocation required","12,450","8,921 already relocated",Users],["Safe capacity","18,730","72% currently available",Shield]].map(([t,v,s,I]:any)=><div key={t} className="bg-white border border-line rounded-2xl p-4 md:p-5 shadow-soft"><div className="flex justify-between"><span className="text-xs text-muted">{t}</span><div className="p-2 rounded-lg bg-forest/10 text-forest"><I size={17}/></div></div><div className="text-2xl font-bold mt-4">{v}</div><div className="text-[11px] text-muted mt-1">{s}</div></div>)}</section>

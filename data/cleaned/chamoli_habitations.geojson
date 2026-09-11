@@ -1,53 +1,186 @@
 {
   "type": "FeatureCollection",
+  "name": "chamoli_habitations",
   "features": [
     {
       "type": "Feature",
       "properties": {
         "habitation_id": "H001",
-        "name": "Joshimath Ward 3",
-        "population": 1450
+        "name": "Joshimath Ward 1 (Singhdhar)",
+        "population": 1820,
+        "households": 412,
+        "primary_hazard": "landslide",
+        "current_zone_id": null
       },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [79.565, 30.555]
-      }
+      "geometry": { "type": "Point", "coordinates": [79.5658, 30.5598] }
     },
     {
       "type": "Feature",
       "properties": {
         "habitation_id": "H002",
-        "name": "Chamoli Riverside Colony",
-        "population": 820
+        "name": "Joshimath Ward 3 (Lower Market)",
+        "population": 2340,
+        "households": 531,
+        "primary_hazard": "landslide",
+        "current_zone_id": null
       },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [79.327, 30.402]
-      }
+      "geometry": { "type": "Point", "coordinates": [79.5680, 30.5615] }
     },
     {
       "type": "Feature",
       "properties": {
         "habitation_id": "H003",
-        "name": "Reni Village",
-        "population": 510
+        "name": "Joshimath Ward 5 (Sunil)",
+        "population": 980,
+        "households": 224,
+        "primary_hazard": "landslide",
+        "current_zone_id": null
       },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [79.587, 30.617]
-      }
+      "geometry": { "type": "Point", "coordinates": [79.5700, 30.5632] }
     },
     {
       "type": "Feature",
       "properties": {
         "habitation_id": "H004",
-        "name": "Gopeshwar Outskirts",
-        "population": 2100
+        "name": "Reni Village",
+        "population": 420,
+        "households": 95,
+        "primary_hazard": "glof",
+        "current_zone_id": null
       },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [79.450, 30.470]
-      }
+      "geometry": { "type": "Point", "coordinates": [79.5920, 30.4870] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H005",
+        "name": "Tapovan Settlement",
+        "population": 310,
+        "households": 68,
+        "primary_hazard": "landslide",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.6230, 30.4980] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H006",
+        "name": "Chamoli Town — River Ward",
+        "population": 3150,
+        "households": 714,
+        "primary_hazard": "flood",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.3280, 30.4020] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H007",
+        "name": "Helang Village",
+        "population": 680,
+        "households": 154,
+        "primary_hazard": "landslide",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.5020, 30.5210] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H008",
+        "name": "Marwari Village",
+        "population": 540,
+        "households": 122,
+        "primary_hazard": "landslide",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.5100, 30.5280] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H009",
+        "name": "Birahi Village",
+        "population": 490,
+        "households": 112,
+        "primary_hazard": "cloudburst",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.4120, 30.4500] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H010",
+        "name": "Nandprayag Town",
+        "population": 2100,
+        "households": 476,
+        "primary_hazard": "flood",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.1850, 30.3500] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H011",
+        "name": "Gauchar Township",
+        "population": 1750,
+        "households": 396,
+        "primary_hazard": "flood",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.2380, 30.3900] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H012",
+        "name": "Karnaprayag Riverside",
+        "population": 2870,
+        "households": 651,
+        "primary_hazard": "erosion",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.2630, 30.2720] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H013",
+        "name": "Urgam Village",
+        "population": 320,
+        "households": 74,
+        "primary_hazard": "landslide",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.4430, 30.5620] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H014",
+        "name": "Gopeshwar Central",
+        "population": 4200,
+        "households": 951,
+        "primary_hazard": "none",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.4150, 30.4100] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "habitation_id": "H015",
+        "name": "Pipalkoti Market Area",
+        "population": 1430,
+        "households": 324,
+        "primary_hazard": "none",
+        "current_zone_id": null
+      },
+      "geometry": { "type": "Point", "coordinates": [79.4920, 30.4800] }
     }
   ]
 }

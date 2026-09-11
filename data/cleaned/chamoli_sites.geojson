@@ -1,22 +1,28 @@
 {
   "type": "FeatureCollection",
+  "name": "chamoli_safe_sites",
   "features": [
     {
       "type": "Feature",
       "properties": {
         "site_id": "S001",
-        "capacity_score": 0.78,
-        "available_land": 12.5,
-        "infra_access": 0.65
+        "name": "Pipalkoti Plateau — North",
+        "capacity_score": 0.84,
+        "available_land": 18.5,
+        "infra_access": 0.82,
+        "water_access": 0.75,
+        "road_distance_km": 0.4,
+        "max_families": 850,
+        "notes": "Flat terrain, NH-7 access, existing water supply infrastructure"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [79.470, 30.480],
-          [79.485, 30.480],
-          [79.485, 30.495],
-          [79.470, 30.495],
-          [79.470, 30.480]
+          [79.4850, 30.4900],
+          [79.4980, 30.4900],
+          [79.4980, 30.5010],
+          [79.4850, 30.5010],
+          [79.4850, 30.4900]
         ]]
       }
     },
@@ -24,18 +30,23 @@
       "type": "Feature",
       "properties": {
         "site_id": "S002",
-        "capacity_score": 0.55,
-        "available_land": 6.2,
-        "infra_access": 0.40
+        "name": "Gopeshwar Extension — East",
+        "capacity_score": 0.79,
+        "available_land": 14.2,
+        "infra_access": 0.88,
+        "water_access": 0.80,
+        "road_distance_km": 0.7,
+        "max_families": 650,
+        "notes": "District HQ proximity, good road connectivity, slightly sloped"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [79.340, 30.420],
-          [79.352, 30.420],
-          [79.352, 30.432],
-          [79.340, 30.432],
-          [79.340, 30.420]
+          [79.4250, 30.4100],
+          [79.4380, 30.4100],
+          [79.4380, 30.4230],
+          [79.4250, 30.4230],
+          [79.4250, 30.4100]
         ]]
       }
     },
@@ -43,18 +54,119 @@
       "type": "Feature",
       "properties": {
         "site_id": "S003",
-        "capacity_score": 0.32,
-        "available_land": 3.1,
-        "infra_access": 0.25
+        "name": "Karnaprayag Upland — Sector A",
+        "capacity_score": 0.71,
+        "available_land": 11.8,
+        "infra_access": 0.70,
+        "water_access": 0.68,
+        "road_distance_km": 1.2,
+        "max_families": 520,
+        "notes": "Safe elevation, moderate road access, needs water infrastructure"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [79.600, 30.600],
-          [79.610, 30.600],
-          [79.610, 30.610],
-          [79.600, 30.610],
-          [79.600, 30.600]
+          [79.2700, 30.2950],
+          [79.2870, 30.2950],
+          [79.2870, 30.3100],
+          [79.2700, 30.3100],
+          [79.2700, 30.2950]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "S004",
+        "name": "Gauchar Airstrip Buffer Zone",
+        "capacity_score": 0.67,
+        "available_land": 9.5,
+        "infra_access": 0.65,
+        "water_access": 0.60,
+        "road_distance_km": 1.5,
+        "max_families": 430,
+        "notes": "Flat land available, existing airstrip nearby, limited water access"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.2400, 30.4150],
+          [79.2560, 30.4150],
+          [79.2560, 30.4290],
+          [79.2400, 30.4290],
+          [79.2400, 30.4150]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "S005",
+        "name": "Nandprayag Safe Plateau",
+        "capacity_score": 0.62,
+        "available_land": 7.3,
+        "infra_access": 0.58,
+        "water_access": 0.55,
+        "road_distance_km": 2.1,
+        "max_families": 310,
+        "notes": "Away from confluence flood zone, road access fair, smaller area"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.1900, 30.3700],
+          [79.2050, 30.3700],
+          [79.2050, 30.3830],
+          [79.1900, 30.3830],
+          [79.1900, 30.3700]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "S006",
+        "name": "Auli Meadow — Lower Zone",
+        "capacity_score": 0.55,
+        "available_land": 6.1,
+        "infra_access": 0.45,
+        "water_access": 0.50,
+        "road_distance_km": 3.5,
+        "max_families": 240,
+        "notes": "Scenic, stable terrain but limited road access; ropeway access available"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.5550, 30.5200],
+          [79.5680, 30.5200],
+          [79.5680, 30.5330],
+          [79.5550, 30.5330],
+          [79.5550, 30.5200]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "S007",
+        "name": "Chamoli Upland — Okhimath Road",
+        "capacity_score": 0.48,
+        "available_land": 5.2,
+        "infra_access": 0.40,
+        "water_access": 0.45,
+        "road_distance_km": 4.0,
+        "max_families": 190,
+        "notes": "Safe elevation, small area, poor road access; long-term development needed"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [79.3450, 30.4300],
+          [79.3570, 30.4300],
+          [79.3570, 30.4430],
+          [79.3450, 30.4430],
+          [79.3450, 30.4300]
         ]]
       }
     }
