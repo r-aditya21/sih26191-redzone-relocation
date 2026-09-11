@@ -1,0 +1,6 @@
+id,name,latitude,longitude,land_area,estimated_capacity,water_score,road_score,healthcare_score,hazard_score
+1,Site_Gopeshwar_North,30.4350,79.3250,50000,2000,85,90,80,15
+2,Site_Mandal_Valley,30.4800,79.3800,35000,1400,75,80,65,20
+3,Site_Urgam_Flat,30.5100,79.4200,45000,1800,70,75,60,18
+4,Site_Niti_Plain,30.5500,79.5000,60000,2400,80,70,55,12
+5,Site_Chamoli_East,30.4200,79.3500,40000,1600,88,92,85,10
