@@ -1,0 +1,530 @@
+Yes. The README should include a **complete setup section**, including Python, virtual environment, dependencies, environment activation, running the service, and testing.
+
+Replace your Python `README.md` with this:
+
+````markdown
+# RakshaGrid M4 — Python Risk Analysis Service
+
+Python microservice responsible for the **M4 disaster-risk analysis and scoring engine** of RakshaGrid.
+
+The service is built with **FastAPI** and is consumed by the main Express/TypeScript backend.
+
+---
+
+## 📁 Project Structure
+
+```text
+m4-service/
+│
+├── api.py
+├── geo_loader.py
+│
+├── m4/
+│   ├── __init__.py
+│   ├── schemas.py
+│   ├── risk_engine.py
+│   ├── demo.py
+│   ├── test_risk_engine.py
+│   └── test_risk_pipeline.py
+│
+├── data/
+│   └── cleaned/
+│       ├── chamoli_zones.geojson
+│       ├── chamoli_habitations.geojson
+│       └── chamoli_sites.geojson
+│
+├── .venv/
+└── README.md
+````
+
+---
+
+# ⚙️ Requirements
+
+Before setting up the service, install:
+
+* Python **3.10+**
+* pip
+* Git
+
+Check Python:
+
+```bash
+python --version
+```
+
+Check pip:
+
+```bash
+pip --version
+```
+
+---
+
+# 🚀 Setup
+
+## 1. Navigate to the M4 service
+
+From the project root:
+
+```powershell
+cd backend\python\m4-service
+```
+
+---
+
+## 2. Create a virtual environment
+
+```powershell
+python -m venv .venv
+```
+
+This creates an isolated Python environment for the M4 service.
+
+---
+
+## 3. Activate the virtual environment
+
+### Windows PowerShell
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### Windows CMD
+
+```cmd
+.venv\Scripts\activate
+```
+
+After activation, your terminal should show:
+
+```text
+(.venv)
+```
+
+---
+
+## 4. Install dependencies
+
+Install the required packages:
+
+```powershell
+pip install fastapi uvicorn pydantic pytest
+```
+
+If a `requirements.txt` file is available, use:
+
+```powershell
+pip install -r requirements.txt
+```
+
+---
+
+# ▶️ Run the M4 Service
+
+Start the FastAPI server:
+
+```powershell
+uvicorn api:app --reload --port 8000
+```
+
+The service will run at:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+# 📖 API Documentation
+
+FastAPI automatically provides interactive API documentation.
+
+Open:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Alternative documentation:
+
+```text
+http://127.0.0.1:8000/redoc
+```
+
+---
+
+# ❤️ Health Check
+
+Endpoint:
+
+```text
+GET /health
+```
+
+Example:
+
+```text
+http://127.0.0.1:8000/health
+```
+
+Expected response:
+
+```json
+{
+  "status": "ok",
+  "service": "rakshagrid-m4"
+}
+```
+
+---
+
+# 🧠 Risk Analysis API
+
+## Endpoint
+
+```text
+POST /risk
+```
+
+The endpoint accepts risk indicators for a habitation and calculates:
+
+* Hazard score
+* Exposure score
+* Vulnerability score
+* Overall risk score
+* Risk level
+
+---
+
+## Example Request
+
+```json
+{
+  "habitation_id": "H001",
+  "population": 1000,
+
+  "flood_score": 0.7,
+  "landslide_score": 0.6,
+  "rainfall_score": 0.8,
+
+  "exposed_area_ratio": 0.7,
+
+  "vulnerable_population_ratio": 0.5,
+  "infrastructure_vulnerability": 0.6,
+  "access_constraint": 0.4
+}
+```
+
+All score inputs should normally be between:
+
+```text
+0.0 → 1.0
+```
+
+---
+
+# 📊 Risk Methodology
+
+## Hazard
+
+| Factor    | Weight |
+| --------- | -----: |
+| Flood     |    40% |
+| Landslide |    35% |
+| Rainfall  |    25% |
+
+```text
+Hazard Score =
+    Flood × 0.40
+  + Landslide × 0.35
+  + Rainfall × 0.25
+```
+
+---
+
+## Exposure
+
+Exposure considers:
+
+* Population
+* Exposed area ratio
+
+---
+
+## Vulnerability
+
+Vulnerability considers:
+
+* Vulnerable population ratio
+* Infrastructure vulnerability
+* Access constraint
+
+---
+
+## Overall Risk
+
+| Component     | Weight |
+| ------------- | -----: |
+| Hazard        |    50% |
+| Exposure      |    30% |
+| Vulnerability |    20% |
+
+```text
+Risk Score =
+    Hazard × 0.50
+  + Exposure × 0.30
+  + Vulnerability × 0.20
+```
+
+---
+
+# 🚦 Risk Classification
+
+```text
+Score >= 0.67  → HIGH
+
+Score >= 0.34  → MEDIUM
+
+Score <  0.34  → LOW
+```
+
+---
+
+# 🔍 Explainable Risk Results
+
+The service returns individual scores and calculation explanations.
+
+Example:
+
+```json
+{
+  "habitation_id": "H001",
+
+  "hazard": {
+    "hazard_score": 0.69
+  },
+
+  "exposure": {
+    "exposure_score": 0.56
+  },
+
+  "vulnerability": {
+    "vulnerability_score": 0.51
+  },
+
+  "risk": {
+    "risk_score": 0.615,
+    "risk_level": "MEDIUM"
+  }
+}
+```
+
+The response also includes contribution values that explain how individual factors affected the final score.
+
+---
+
+# 🗺️ Geographic Data
+
+The service contains cleaned GeoJSON datasets:
+
+```text
+data/
+└── cleaned/
+    ├── chamoli_zones.geojson
+    ├── chamoli_habitations.geojson
+    └── chamoli_sites.geojson
+```
+
+`geo_loader.py` handles geographic data loading.
+
+---
+
+# 🧪 Testing
+
+Make sure the virtual environment is activated.
+
+Run all tests:
+
+```powershell
+pytest
+```
+
+Run the risk engine tests:
+
+```powershell
+pytest m4/test_risk_engine.py
+```
+
+Run the risk pipeline tests:
+
+```powershell
+pytest m4/test_risk_pipeline.py
+```
+
+---
+
+# 🔗 Integration With Express Backend
+
+The Python service is **not the main application backend**.
+
+The main backend is:
+
+```text
+Express + TypeScript
+http://localhost:5000
+```
+
+The Express backend communicates with this Python service through:
+
+```text
+backend/src/services/m4PythonClient.ts
+```
+
+Architecture:
+
+```text
+Frontend
+   │
+   ▼
+Express Backend :5000
+   │
+   ▼
+m4PythonClient.ts
+   │
+   │ HTTP
+   ▼
+Python M4 Service :8000
+   │
+   ▼
+M4 Risk Engine
+```
+
+---
+
+# 🔄 Complete Risk Flow
+
+```text
+POST /api/m4/risk-analysis
+            │
+            ▼
+     Express Backend
+            │
+            ├── JWT Authentication
+            │
+            ├── MongoDB Population
+            │
+            ▼
+     Python M4 Service
+            │
+            ▼
+      Hazard Calculation
+            │
+            ▼
+     Exposure Calculation
+            │
+            ▼
+   Vulnerability Calculation
+            │
+            ▼
+       Risk Calculation
+            │
+            ▼
+       Risk Classification
+            │
+            ▼
+     Express Backend
+            │
+            ▼
+         Frontend
+```
+
+---
+
+# ⚠️ Current Data Limitation
+
+The current MongoDB schemas do not contain all M4 raw risk indicators.
+
+The following values are therefore supplied separately to the M4 service:
+
+```text
+flood_score
+landslide_score
+rainfall_score
+exposed_area_ratio
+vulnerable_population_ratio
+infrastructure_vulnerability
+access_constraint
+```
+
+These inputs can later be connected to authoritative environmental, geographic, infrastructure, and demographic datasets.
+
+---
+
+# 🛠️ Development Commands
+
+### Activate environment
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### Start development server
+
+```powershell
+uvicorn api:app --reload --port 8000
+```
+
+### Run tests
+
+```powershell
+pytest
+```
+
+### Deactivate environment
+
+```powershell
+deactivate
+```
+
+---
+
+# 🔒 Important
+
+Do not commit the virtual environment to Git.
+
+Add this to `.gitignore`:
+
+```gitignore
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+```
+
+---
+
+# 🎯 Purpose of M4
+
+The M4 service provides the computational risk-analysis layer of RakshaGrid and is designed to support:
+
+* Disaster-risk assessment
+* Red-zone identification
+* Habitation prioritization
+* Explainable risk scoring
+* Relocation decision support
+* Future integration with real-world hazard datasets
+
+---
+
+## RakshaGrid
+
+**Smart India Hackathon — SIH26191**
+
+**M4 Risk Analysis & Decision Engine**
+
+```
+
+This includes the **full setup → installation → run → API → testing → Express integration** flow, so someone cloning the project can get the Python service running without needing the original conversation.
+```
