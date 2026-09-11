@@ -1,0 +1,9 @@
+id,name,latitude,longitude,population,elderly_population,children_population,disability_population,risk_score,priority
+1,Gopeshwar,30.4167,79.3167,4500,450,900,120,0,null
+2,Joshimath,30.5578,79.5644,3000,300,600,80,0,null
+3,Karnaprayag,30.2681,79.2506,8000,800,1600,200,0,null
+4,Nandprayag,30.3388,79.3199,2500,250,500,65,0,null
+5,Pipalkoti,30.4833,79.4833,1800,180,360,45,0,null
+6,Chamoli Town,30.4100,79.3300,3200,320,640,90,0,null
+7,Simli,30.4500,79.3700,1400,140,280,35,0,null
+8,Tharali,30.2833,79.1333,2100,210,420,50,0,null
